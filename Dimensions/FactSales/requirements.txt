@@ -1,0 +1,14 @@
+FactSales
+
+ProductID int
+EmployeeID int
+CustomerID char(5)
+orderDate datetime
+OrderID int
+Quantity smallint
+unitPrice money
+discountPercent real
+discountAmount money
+total money
+
+Database
