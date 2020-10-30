@@ -1,0 +1,28 @@
+DimProduct
+
+ProductID 
+ProductName
+categoryName
+SupplierName
+Address
+City
+Region
+Postal Code
+Country
+
+
+DATABASE
+Products
+ProductID int
+ProductName nv40
+
+Categories
+CategoryName nv15
+
+Suppliers
+Companyname nv40
+Address nv60
+City nv15
+Region nv15
+PostalCode nv10
+Country nv15
