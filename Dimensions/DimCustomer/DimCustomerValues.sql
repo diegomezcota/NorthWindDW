@@ -1,3 +1,4 @@
+-- Insertar valores de NorthwindDB
 insert into DimCustomer
     select
         cast(CustomerID as char(5)),

@@ -1,4 +1,4 @@
--- si solo se hace para los valores nulos
+-- Reemplazar valores nulos
 update DimProduct
     set Region = 'Europe'
     where Country in ('Denmark', 'Finland', 'France', 'Germany', 'Italy', 'Netherlands',

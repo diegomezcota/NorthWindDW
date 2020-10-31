@@ -1,4 +1,4 @@
--- si solo se hace para los valores nulos
+-- Reemplazar valores nulos por continente
 update DimCustomer
     set Region = 'Europe'
     where Country in ('Austria', 'Belgium', 'Denmark', 'Finland', 'France', 'Germany', 'Italy',

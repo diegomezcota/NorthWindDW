@@ -1,3 +1,4 @@
+-- insertar valores
 insert into FactSales
     select 
         od.ProductID,
