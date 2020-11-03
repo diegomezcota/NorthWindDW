@@ -1,20 +1,20 @@
--- Cuales años tienen órdenes
+-- Q0.1 Cuales años tienen órdenes
 SELECT YEAR(OrderDate)
 FROM Orders
 GROUP BY YEAR(OrderDate);
 
--- Cuántos años existen con registros
-SELECT COUNT(YEAR(OrderDate))
+-- Q0.2 Cuántos años existen con registros
+SELECT COUNT(DISTINCT(YEAR(OrderDate)))
 FROM Orders
-GROUP BY YEAR(OrderDate);
 
--- Producto con más unidades vendidas en 1996
+-- Q1 Producto con más unidades vendidas en 1996
 SELECT TOP 1 P.ProductName
-FROM OrderDetails AS OD
+FROM [Order Details] AS OD
 JOIN Products AS P ON OD.ProductID = P.ProductID
 JOIN Orders AS O ON OD.OrderID = O.OrderID
 WHERE YEAR(O.OrderDate) = 1996
-ORDER BY SUM(OD.Quantity) DESC;
+GROUP BY P.ProductName
+ORDER BY SUM(OD.Quantity) DESC
 
 -- Total de ventas en el 96
 SELECT SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount))
