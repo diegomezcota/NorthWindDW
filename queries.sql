@@ -16,21 +16,21 @@ WHERE YEAR(O.OrderDate) = 1996
 GROUP BY P.ProductName
 ORDER BY SUM(OD.Quantity) DESC
 
--- Total de ventas en el 96
-SELECT SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount))
-FROM OrderDetails AS OD
+-- Q2 Total de ventas en el 96
+SELECT CAST(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) as MONEY)
+FROM [Order Details] AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID
 WHERE YEAR(O.OrderDate) = 1996;
 
--- Total de ventas en el 97
-SELECT SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount))
-FROM OrderDetails AS OD
+-- Q3 Total de ventas en el 97
+SELECT CAST(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) as MONEY)
+FROM [Order Details] AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID
 WHERE YEAR(O.OrderDate) = 1997;
 
--- Total de ventas histórico
-SELECT SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount))
-FROM OrderDetails AS OD
+-- Q4 Total de ventas histórico
+SELECT CAST(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) as MONEY)
+FROM [Order Details] AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID;
 
 -- Producto que generó más ganancias en 1997
