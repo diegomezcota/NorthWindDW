@@ -33,12 +33,13 @@ SELECT CAST(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) as MONEY)
 FROM [Order Details] AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID;
 
--- Producto que generó más ganancias en 1997
+-- Q5 Producto que generó más ganancias en 1997
 SELECT TOP 1 P.ProductName
-FROM OrderDetails AS OD
+FROM [Order Details] AS OD
 JOIN Products AS P ON OD.ProductID = P.ProductID
 JOIN Orders AS O ON OD.OrderID = O.OrderID
 WHERE YEAR(O.OrderDate) = 1997
+GROUP BY P.ProductName
 ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Region que generó más ventas en 1997
