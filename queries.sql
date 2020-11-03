@@ -28,7 +28,7 @@ FROM OrderDetails AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID
 WHERE YEAR(O.OrderDate) = 1997;
 
-// Total de ventas histórico
+-- Total de ventas histórico
 SELECT SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount))
 FROM OrderDetails AS OD
 JOIN Orders AS O ON OD.OrderID = O.OrderID;
