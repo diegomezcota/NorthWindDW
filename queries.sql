@@ -62,16 +62,34 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 	-- llamado a la función
 	select dbo.region_ventas_max_1997()
 
--- Estado o pais que mas genero de la region de ventas maxima
-SELECT IF(
-	STRCMP(O.ShipCountry, "USA") = 0,
-	O.ShipRegion,
-	O.ShipCountry)
-FROM Orders as O
-JOIN OrderDetails AS OD ON OD.OrderId = O.OrderId
-WHERE O.ShipRegion = region_ventas_max()
-WHERE YEAR(O.OrderDate) = 1997
-ORDER BY SUM(OD.UnitPrice * OD.Quantity) DESC;
+-- Q7 Estado o pais que mas genero de la region de ventas maxima
+	-- definición de función de comparación de 2 strings, STRCMP
+	CREATE FUNCTION STRCMP(@str1 varchar, @str2 varchar)
+		RETURNS int
+		AS
+		BEGIN
+			DECLARE @ans int;
+			IF @str1 = @str2 BEGIN SET @ans = 0 END
+			ELSE BEGIN SET @ans = 1 END
+			RETURN @ans
+		END
+	GO
+	-- query
+	SELECT
+		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
+			THEN O.ShipRegion
+			ELSE O.ShipCountry
+		END AS topStateOrRegion
+	FROM Orders as O
+	JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
+	WHERE O.ShipRegion = dbo.region_ventas_max()
+		AND YEAR(O.OrderDate) = 1997
+	GROUP BY
+		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
+			THEN O.ShipRegion
+			ELSE O.ShipCountry
+		END
+	ORDER BY SUM(OD.UnitPrice * OD.Quantity) DESC;
 
 -- Total de ventas org por region, estado y pais
 SELECT SUM(OD.UnitPrice * OD.Quantity) AS Ventas,
