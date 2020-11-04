@@ -15,6 +15,16 @@ WHERE YEAR(FS.orderDate) = 1996
 GROUP BY DP.ProductName
 ORDER BY SUM(FS.Quantity) DESC
 
+-- Q2 Total de ventas en el 96
+SELECT SUM(total)
+FROM FactSales
+where Year(OrderDate) = 1996
+
+-- Q3 Total de ventas en el 97
+SELECT SUM(total)
+FROM FactSales
+where Year(OrderDate) = 1997
+
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
