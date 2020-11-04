@@ -43,7 +43,7 @@ GROUP BY P.ProductName
 ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Q6 Region que generó más ventas en 1997
-	-- definición de la función
+	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
 		RETURNS VARCHAR 
 		AS
@@ -55,7 +55,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 				JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
 			WHERE YEAR(O.OrderDate) = 1997
 			GROUP BY O.ShipRegion
-			ORDER BY SUM(OD.UnitPrice * OD.Quantity) DESC;
+			ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 			RETURN @VARCHAR
 		END
 	GO
@@ -75,7 +75,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 		END
 	GO
 	-- query
-	SELECT
+	SELECT TOP 1
 		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
 			THEN O.ShipRegion
 			ELSE O.ShipCountry
@@ -89,7 +89,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 			THEN O.ShipRegion
 			ELSE O.ShipCountry
 		END
-	ORDER BY SUM(OD.UnitPrice * OD.Quantity) DESC;
+	ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Q8 Total de ventas org por region, estado y/o pais
 SELECT O.ShipCountry, O.ShipRegion, SUM(OD.UnitPrice * OD.Quantity) AS Ventas
