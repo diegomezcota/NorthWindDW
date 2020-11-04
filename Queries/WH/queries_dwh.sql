@@ -1,16 +1,15 @@
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
-		RETURNS VARCHAR 
+		RETURNS VARCHAR(15) 
 		AS
 		BEGIN
-			DECLARE @VARCHAR VARCHAR;
+			DECLARE @VARCHAR VARCHAR(15);
 			SELECT TOP 1 @VARCHAR = DC.Region
 			FROM 
 				DimCustomer AS DC
-				JOIN [FactSales] AS FS ON FS.CustomerID = DC.CustomerID
-				JOIN DimTime AS T ON T.orderDate = FS.orderDate
-			WHERE YEAR(T.orderDate) = 1997
+				JOIN FactSales AS FS ON FS.CustomerID = DC.CustomerID
+			WHERE YEAR(FS.orderDate) = 1997
 			GROUP BY DC.Region
 			ORDER BY SUM(FS.UnitPrice * FS.Quantity) DESC;
 			RETURN @VARCHAR

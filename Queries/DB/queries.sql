@@ -45,10 +45,10 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
-		RETURNS VARCHAR 
+		RETURNS VARCHAR(15) 
 		AS
 		BEGIN
-			DECLARE @VARCHAR VARCHAR;
+			DECLARE @VARCHAR VARCHAR(15);
 			SELECT TOP 1 @VARCHAR = O.ShipRegion
 			FROM 
 				Orders AS O
