@@ -76,19 +76,14 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 	GO
 	-- query
 	SELECT TOP 1
-		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
-			THEN O.ShipRegion
-			ELSE O.ShipCountry
-		END AS topStateOrRegion
+		CASE WHEN O.ShipCountry = 'USA' THEN O.ShipRegion ELSE O.ShipCountry END
+		AS topStateOrRegion
 	FROM Orders as O
 	JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
 	WHERE O.ShipRegion = dbo.region_ventas_max()
 		AND YEAR(O.OrderDate) = 1997
 	GROUP BY
-		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
-			THEN O.ShipRegion
-			ELSE O.ShipCountry
-		END
+		CASE WHEN O.ShipCountry = 'USA' THEN O.ShipRegion ELSE O.ShipCountry END
 	ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Q8 Total de ventas org por region, estado y/o pais
