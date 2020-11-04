@@ -53,5 +53,5 @@
 -- Q8 Total de ventas org por region, estado y/o pais
 SELECT DC.Country, DC.Region, SUM(FS.UnitPrice * FS.Quantity) AS Ventas
 FROM DimCustomer AS DC
-JOIN [FactSales] AS FS ON FS.CustomerID = DC.CustomerID
+JOIN FactSales AS FS ON FS.CustomerID = DC.CustomerID
 GROUP BY DC.Region, DC.Country
