@@ -44,7 +44,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Region que generó más ventas en 1997
 CREATE FUNCTION region_ventas_max()
-	RETURNS
+	RETURNS VARCHAR
 	SELECT TOP 1 O.ShipRegion
 	FROM Orders AS O
 	JOIN OrderDetails AS OD ON OD.OrderId = O.OrderId
@@ -53,11 +53,12 @@ CREATE FUNCTION region_ventas_max()
 
 -- Estado o pais que mas genero de la region de ventas maxima
 SELECT IF(
-	STRCMP(region_ventas_max(), "USA") = 0,
-	O.ShipState,
+	STRCMP(O.ShipCountry, "USA") = 0,
+	O.ShipRegion,
 	O.ShipCountry)
 FROM Orders as O
 JOIN OrderDetails AS OD ON OD.OrderId = O.OrderId
+WHERE O.ShipRegion = region_ventas_max()
 WHERE YEAR(O.OrderDate) = 1997
 ORDER BY SUM(OD.UnitPrice * OD.Quantity) DESC;
 
