@@ -1,3 +1,11 @@
+-- Q0.1 Cuales años tienen órdenes
+SELECT YEAR(OrderDate)
+FROM DimTime
+GROUP BY YEAR(OrderDate);
+
+-- Q0.2 Cuántos años existen con registros
+SELECT COUNT(DISTINCT(YEAR(OrderDate)))
+FROM DimTime
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
