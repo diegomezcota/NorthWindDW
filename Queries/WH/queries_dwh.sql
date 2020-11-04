@@ -6,6 +6,15 @@ GROUP BY YEAR(OrderDate);
 -- Q0.2 Cuántos años existen con registros
 SELECT COUNT(DISTINCT(YEAR(OrderDate)))
 FROM DimTime
+
+-- Q1 Producto con más unidades vendidas en 1996
+SELECT TOP 1 DP.ProductName
+FROM DimProduct as DP
+	JOIN FactSales as FS on DP.ProductID = FS.ProductID
+WHERE YEAR(FS.orderDate) = 1996
+GROUP BY DP.ProductName
+ORDER BY SUM(FS.Quantity) DESC
+
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
