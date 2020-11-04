@@ -92,7 +92,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 	ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Q8 Total de ventas org por region, estado y/o pais
-SELECT O.ShipCountry, O.ShipRegion, SUM(OD.UnitPrice * OD.Quantity) AS Ventas
+SELECT O.ShipCountry, O.ShipRegion, SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) AS Ventas
 FROM [Order Details] AS OD
 JOIN Orders AS O ON O.OrderId = OD.OrderId
 GROUP BY O.ShipRegion, O.ShipCountry
