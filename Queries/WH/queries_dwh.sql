@@ -32,21 +32,14 @@
 	GO
 	-- query
 	SELECT TOP 1
-		CASE WHEN dbo.STRCMP(DC.Country, 'USA') = 0
-			THEN DC.Region
-			ELSE DC.Country
-		END AS topStateOrRegion
+		CASE WHEN DC.Country = 'USA' THEN DC.Region ELSE DC.Country END
+		AS topStateOrRegion
 	FROM DimCustomer AS DC
-	JOIN [FactSales] AS FS ON FS.CustomerID = DC.CustomerID
-	JOIN [DimTime] AS T ON T.orderDate = FS.orderDate
-	WHERE DC.Region = dbo.region_ventas_max()
-		AND YEAR(T.orderDate) = 1997
-	
+		JOIN FactSales AS FS ON FS.CustomerID = DC.CustomerID
+	WHERE DC.Region = dbo.region_ventas_max_1997()
+		AND YEAR(FS.orderDate) = 1997
 	GROUP BY
-		CASE WHEN dbo.STRCMP(O.ShipCountry, 'USA') = 0
-			THEN DC.Region
-			ELSE DC.Country
-		END
+		CASE WHEN DC.Country = 'USA' THEN DC.Region ELSE DC.Country END
 	ORDER BY SUM(FS.UnitPrice * FS.Quantity) DESC;
 
 -- Q8 Total de ventas org por region, estado y/o pais
