@@ -63,17 +63,6 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 	select dbo.region_ventas_max_1997()
 
 -- Q7 Estado o pais que mas genero de la region de ventas maxima
-	-- definición de función de comparación de 2 strings, STRCMP
-	CREATE FUNCTION STRCMP(@str1 varchar, @str2 varchar)
-		RETURNS int
-		AS
-		BEGIN
-			DECLARE @ans int;
-			IF @str1 = @str2 BEGIN SET @ans = 0 END
-			ELSE BEGIN SET @ans = 1 END
-			RETURN @ans
-		END
-	GO
 	-- query
 	SELECT TOP 1
 		CASE WHEN O.ShipCountry = 'USA' THEN O.ShipRegion ELSE O.ShipCountry END
