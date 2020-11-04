@@ -25,6 +25,10 @@ SELECT SUM(total)
 FROM FactSales
 where Year(OrderDate) = 1997
 
+-- Q4 Total de ventas histórico
+SELECT SUM(total)
+FROM FactSales
+
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
