@@ -49,12 +49,13 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 		AS
 		BEGIN
 			DECLARE @VARCHAR VARCHAR(15);
-			SELECT TOP 1 @VARCHAR = O.ShipRegion
+			SELECT TOP 1 @VARCHAR = E.Region
 			FROM 
 				Orders AS O
 				JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
+				JOIN Employees as E ON E.EmployeeID = O.EmployeeID
 			WHERE YEAR(O.OrderDate) = 1997
-			GROUP BY O.ShipRegion
+			GROUP BY E.Region
 			ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 			RETURN @VARCHAR
 		END
