@@ -57,19 +57,19 @@ ORDER BY SUM(total) DESC
 	select dbo.region_ventas_max_1997()
 
 -- Q7 Estado o pais que mas genero de la region de ventas maxima
-	-- query
-	SELECT TOP 1
-		CASE WHEN DE.Country = 'USA' THEN DE.Region ELSE DE.Country END
-		AS topStateOrRegion
-	FROM DimEmployee AS DE
-		JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
-	WHERE DE.Region = dbo.region_ventas_max_1997()
-		AND YEAR(FS.orderDate) = 1997
-	GROUP BY
-		CASE WHEN DE.Country = 'USA' THEN DE.Region ELSE DE.Country END
-	ORDER BY SUM(FS.UnitPrice * FS.Quantity) DESC;
+SELECT TOP 1
+	CASE WHEN DE.Country = 'USA' THEN DE.Region ELSE DE.Country END
+	AS topStateOrRegion
+FROM DimEmployee AS DE
+	JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
+WHERE DE.Region = dbo.region_ventas_max_1997()
+	AND YEAR(FS.orderDate) = 1997
+GROUP BY
+	CASE WHEN DE.Country = 'USA' THEN DE.Region ELSE DE.Country END
+ORDER BY SUM(FS.total) DESC;
+
 -- Q8 Total de ventas org por region, estado y/o pais
-SELECT DC.Country, DC.Region, SUM(FS.UnitPrice * FS.Quantity) AS Ventas
-FROM DimCustomer AS DC
-JOIN FactSales AS FS ON FS.CustomerID = DC.CustomerID
-GROUP BY DC.Region, DC.Country
+SELECT DE.Country, DE.Region, SUM(total) AS Ventas
+FROM DimEmployee AS DE
+JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
+GROUP BY DE.Country, DE.Region
