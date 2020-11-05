@@ -31,7 +31,6 @@ WHERE YEAR(O.OrderDate) = 1997;
 -- Q4 Total de ventas histórico
 SELECT CAST(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) as MONEY)
 FROM [Order Details] AS OD
-JOIN Orders AS O ON OD.OrderID = O.OrderID;
 
 -- Q5 Producto que generó más ganancias en 1997
 SELECT TOP 1 P.ProductName
@@ -64,18 +63,17 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 	select dbo.region_ventas_max_1997()
 
 -- Q7 Estado o pais que mas genero de la region de ventas maxima
-	-- query
-	SELECT TOP 1
-		CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
-		AS topStateOrRegion
-	FROM Orders as O
-	JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
-	JOIN Employees AS E ON E.EmployeeID = O.EmployeeID
-	WHERE E.Region = dbo.region_ventas_max_1997()
-		AND YEAR(O.OrderDate) = 1997
-	GROUP BY
-		CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
-	ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
+SELECT TOP 1
+	CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
+	AS topStateOrRegion
+FROM Orders as O
+JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
+JOIN Employees AS E ON E.EmployeeID = O.EmployeeID
+WHERE E.Region = dbo.region_ventas_max_1997()
+	AND YEAR(O.OrderDate) = 1997
+GROUP BY
+	CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
+ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 
 -- Q8 Total de ventas org por region, estado y/o pais
 SELECT E.Country, E.Region, SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) AS Ventas

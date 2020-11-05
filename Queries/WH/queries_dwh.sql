@@ -37,24 +37,24 @@ GROUP BY DP.ProductName
 ORDER BY SUM(total) DESC
 
 -- Q6 Region que generó más ventas en 1997
-	-- función que regresa la región con mayor ventas en 1997
-	CREATE FUNCTION region_ventas_max_1997()
-		RETURNS VARCHAR(15) 
-		AS
-		BEGIN
-			DECLARE @VARCHAR VARCHAR(15);
-			SELECT TOP 1 @VARCHAR = DE.Region
-			FROM 
-				DimEmployee AS DE
-				JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
-			WHERE YEAR(FS.orderDate) = 1997
-			GROUP BY DE.Region
-			ORDER BY SUM(FS.total) DESC;
-			RETURN @VARCHAR
-		END
-	GO
-	-- llamado a la función
-	select dbo.region_ventas_max_1997()
+-- función que regresa la región con mayor ventas en 1997
+CREATE FUNCTION region_ventas_max_1997()
+	RETURNS VARCHAR(15) 
+	AS
+	BEGIN
+		DECLARE @VARCHAR VARCHAR(15);
+		SELECT TOP 1 @VARCHAR = DE.Region
+		FROM 
+			DimEmployee AS DE
+			JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
+		WHERE YEAR(FS.orderDate) = 1997
+		GROUP BY DE.Region
+		ORDER BY SUM(FS.total) DESC;
+		RETURN @VARCHAR
+	END
+GO
+-- llamado a la función
+select dbo.region_ventas_max_1997()
 
 -- Q7 Estado o pais que mas genero de la region de ventas maxima
 SELECT TOP 1
