@@ -43,13 +43,13 @@ ORDER BY SUM(total) DESC
 		AS
 		BEGIN
 			DECLARE @VARCHAR VARCHAR(15);
-			SELECT TOP 1 @VARCHAR = DC.Region
+			SELECT TOP 1 @VARCHAR = DE.Region
 			FROM 
-				DimCustomer AS DC
-				JOIN FactSales AS FS ON FS.CustomerID = DC.CustomerID
+				DimEmployee AS DE
+				JOIN FactSales AS FS ON FS.EmployeeID = DE.EmployeeID
 			WHERE YEAR(FS.orderDate) = 1997
-			GROUP BY DC.Region
-			ORDER BY SUM(FS.UnitPrice * FS.Quantity) DESC;
+			GROUP BY DE.Region
+			ORDER BY SUM(FS.total) DESC;
 			RETURN @VARCHAR
 		END
 	GO
