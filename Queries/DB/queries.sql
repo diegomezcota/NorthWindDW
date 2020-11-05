@@ -45,11 +45,11 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 -- Q6 Region que generó más ventas en 1997
 	-- función que regresa la región con mayor ventas en 1997
 	CREATE FUNCTION region_ventas_max_1997()
-		RETURNS VARCHAR(15) 
+		RETURNS NVARCHAR(15) 
 		AS
 		BEGIN
-			DECLARE @VARCHAR VARCHAR(15);
-			SELECT TOP 1 @VARCHAR = E.Region
+			DECLARE @NVARCHAR NVARCHAR(15);
+			SELECT TOP 1 @NVARCHAR = E.Region
 			FROM 
 				Orders AS O
 				JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
@@ -57,7 +57,7 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 			WHERE YEAR(O.OrderDate) = 1997
 			GROUP BY E.Region
 			ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
-			RETURN @VARCHAR
+			RETURN @NVARCHAR
 		END
 	GO
 	-- llamado a la función
@@ -66,15 +66,18 @@ ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
 -- Q7 Estado o pais que mas genero de la region de ventas maxima
 	-- query
 	SELECT TOP 1
-		CASE WHEN O.ShipCountry = 'USA' THEN O.ShipRegion ELSE O.ShipCountry END
+		CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
 		AS topStateOrRegion
 	FROM Orders as O
 	JOIN [Order Details] AS OD ON OD.OrderId = O.OrderId
-	WHERE O.ShipRegion = dbo.region_ventas_max()
+	JOIN Employees AS E ON E.EmployeeID = O.EmployeeID
+	WHERE E.Region = dbo.region_ventas_max_1997()
 		AND YEAR(O.OrderDate) = 1997
 	GROUP BY
-		CASE WHEN O.ShipCountry = 'USA' THEN O.ShipRegion ELSE O.ShipCountry END
+		CASE WHEN E.Country = 'USA' THEN E.Region ELSE E.Country END
 	ORDER BY SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) DESC;
+
+
 
 -- Q8 Total de ventas org por region, estado y/o pais
 SELECT O.ShipCountry, O.ShipRegion, SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)) AS Ventas
